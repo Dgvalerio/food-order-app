@@ -13,3 +13,10 @@ export interface IInput {
   step: string;
   defaultValue: string;
 }
+
+export interface ICartContext {
+  items: IMeal[] | [] | never[];
+  totalAmount: number;
+  addItem: (item: IMeal) => void;
+  removeItem: (id: string) => void;
+}
