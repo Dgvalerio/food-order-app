@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { ICartContext } from '../../interfaces';
 import CartContext from '../../store/cart-context';
@@ -11,6 +11,7 @@ const HeaderCartButton = ({
 }: {
   onClick: () => void;
 }): JSX.Element => {
+  const [btnIsHighLighted, setBtnIsHighLighted] = useState(false);
   const { items }: ICartContext = useContext(CartContext);
 
   const numbersOfCartItems = items.map((item) => item.amount);
@@ -20,8 +21,27 @@ const HeaderCartButton = ({
     0
   );
 
+  const btnClasses = `${classes.button} ${
+    btnIsHighLighted ? classes.bump : ''
+  }`;
+
+  useEffect(() => {
+    if (items.length === 0) {
+      return;
+    }
+
+    setBtnIsHighLighted(true);
+
+    const timer = setTimeout(() => {
+      setBtnIsHighLighted(false);
+    }, 300);
+
+    // eslint-disable-next-line consistent-return
+    return () => clearTimeout(timer);
+  }, [items]);
+
   return (
-    <button type="button" className={classes.button} onClick={onClick}>
+    <button type="button" className={btnClasses} onClick={onClick}>
       <span className={classes.icon}>
         <CartIcon />
       </span>
