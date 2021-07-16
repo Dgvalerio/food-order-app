@@ -16,17 +16,36 @@ interface IState {
 type Action = { type: 'ADD'; item: ICartItem } | { type: 'REMOVE'; id: string };
 
 const cartReducer = ({ items, totalAmount }: IState, action: Action) => {
-  switch (action.type) {
-    case 'ADD':
-      return {
-        items: [...items, action.item],
-        totalAmount: totalAmount + action.item.amount * action.item.price,
+  if (action.type === 'ADD') {
+    const existingCartItemIndex = items.findIndex(
+      (item) => item.id === action.item.id
+    );
+
+    const item = items[existingCartItemIndex];
+    let updateItem;
+    let updateItems;
+
+    if (item) {
+      updateItem = {
+        ...item,
+        amount: item.amount + action.item.amount,
       };
-    case 'REMOVE':
-      return defaultCartState;
-    default:
-      return defaultCartState;
+      updateItems = [...items];
+      updateItems[existingCartItemIndex] = updateItem;
+    } else {
+      updateItem = { ...action.item };
+      updateItems = [...items, updateItem];
+    }
+
+    return {
+      items: updateItems,
+      totalAmount: totalAmount + action.item.amount * action.item.price,
+    };
   }
+  if (action.type === 'REMOVE') {
+    return defaultCartState;
+  }
+  return defaultCartState;
 };
 
 const CartProvider = ({ children }: { children: ReactNode }): JSX.Element => {
