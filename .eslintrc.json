@@ -47,6 +47,7 @@
           "ignoreCase": true
         }
       }
-    ]
+    ],
+    "react/prop-types": "off"
   }
 }
