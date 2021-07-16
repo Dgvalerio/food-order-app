@@ -5,6 +5,14 @@ export interface IMeal {
   price: number;
 }
 
+export interface ICartItem {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  amount: number;
+}
+
 export interface IInput {
   id: string;
   type: string;
@@ -15,8 +23,8 @@ export interface IInput {
 }
 
 export interface ICartContext {
-  items: IMeal[] | [] | never[];
+  items: ICartItem[] | [] | never[];
   totalAmount: number;
-  addItem: (item: IMeal) => void;
+  addItem: (item: ICartItem) => void;
   removeItem: (id: string) => void;
 }
