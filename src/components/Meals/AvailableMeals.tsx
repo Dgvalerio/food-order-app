@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import Card from '../UI/Card';
 import classes from './AvailableMeals.module.css';
@@ -31,7 +31,7 @@ const DUMMY_MEALS = [
   },
 ];
 
-const AvailableMeals = () => {
+const AvailableMeals: FC = () => {
   const mealsList = DUMMY_MEALS.map(({ id, name, price, description }) => (
     <MealItem
       key={id}

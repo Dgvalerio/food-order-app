@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import classes from './Cart.module.css';
 
-const Cart = () => {
+const Cart: FC = () => {
   const cartItems = (
     <ul className={classes['cart-item']}>
       {[{ id: 'c1', name: 'Sushi', amount: 2, price: 12.99 }].map((item) => (

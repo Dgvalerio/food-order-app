@@ -4,11 +4,16 @@
     "browser": true,
     "es6": true
   },
-  "extends": ["airbnb", "prettier"],
+  "extends": [
+    "airbnb",
+    "prettier",
+    "plugin:@typescript-eslint/recommended"
+  ],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
   },
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -19,7 +24,8 @@
   "plugins": [
     "react",
     "prettier",
-    "import-helpers"
+    "import-helpers",
+    "@typescript-eslint"
   ],
   "rules": {
     "prettier/prettier": [
@@ -49,6 +55,40 @@
       }
     ],
     "react/prop-types": "off",
-    "react/jsx-props-no-spreading": "off"
+    "react/jsx-props-no-spreading": "off",
+    "react/jsx-filename-extension": [
+      "warn",
+      {
+        "extensions": [
+          ".jsx",
+          ".tsx"
+        ]
+      }
+    ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": [
+      "error"
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
+      }
+    }
   }
 }

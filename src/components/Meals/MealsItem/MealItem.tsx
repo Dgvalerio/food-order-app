@@ -1,9 +1,10 @@
 import React from 'react';
 
+import { IMeal } from '../../../interfaces';
 import classes from './MealItem.module.css';
 import MealItemForm from './MealItemForm';
 
-const MealItem = ({ id, name, description, price }) => {
+const MealItem = ({ id, name, description, price }: IMeal): JSX.Element => {
   const formattedPrice = price.toLocaleString('pt-BR', {
     style: 'currency',
     currency: 'BRL',

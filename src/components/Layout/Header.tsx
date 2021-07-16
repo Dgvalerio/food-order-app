@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import mealsImage from '../../assets/meals.jpg';
 import classes from './Header.module.css';
 import HeaderCartButton from './HeaderCartButton';
 
-const Header = () => (
+const Header: FC = () => (
   <>
     <header className={classes.header}>
       <h1>ReacttMeals</h1>

@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import AvailableMeals from './AvailableMeals';
 import MealsSummary from './MealsSummary';
 
-const Meals = () => (
+const Meals: FC = () => (
   <>
     <MealsSummary />
     <AvailableMeals />

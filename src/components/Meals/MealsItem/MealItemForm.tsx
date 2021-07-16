@@ -3,7 +3,7 @@ import React from 'react';
 import Input from '../../UI/Input';
 import classes from './MealItemForm.module.css';
 
-const MealItemForm = ({ id }) => (
+const MealItemForm = ({ id }: { id: string }): JSX.Element => (
   <form className={classes.form}>
     <Input
       label="Amount"
