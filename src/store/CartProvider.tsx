@@ -43,7 +43,26 @@ const cartReducer = ({ items, totalAmount }: IState, action: Action) => {
     };
   }
   if (action.type === 'REMOVE') {
-    return defaultCartState;
+    const existingCartItemIndex = items.findIndex(
+      (item) => item.id === action.id
+    );
+
+    const item = items[existingCartItemIndex];
+    const updatedTotalAmount = totalAmount - item.price;
+    let updatedItems;
+
+    if (item.amount === 1) {
+      updatedItems = items.filter((cItem) => cItem.id !== action.id);
+    } else {
+      const updatedItem = { ...item, amount: item.amount - 1 };
+      updatedItems = [...items];
+      updatedItems[existingCartItemIndex] = updatedItem;
+    }
+
+    return {
+      items: updatedItems,
+      totalAmount: updatedTotalAmount,
+    };
   }
   return defaultCartState;
 };

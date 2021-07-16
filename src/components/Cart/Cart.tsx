@@ -8,7 +8,12 @@ import classes from './Cart.module.css';
 import CartItem from './CartItem';
 
 const Cart = ({ onClose }: { onClose: () => void }): JSX.Element => {
-  const { totalAmount: cartAmount, items } = useContext(CartContext);
+  const {
+    totalAmount: cartAmount,
+    items,
+    addItem,
+    removeItem,
+  } = useContext(CartContext);
 
   const totalAmount = cartAmount.toLocaleString('pt-BR', {
     style: 'currency',
@@ -16,8 +21,9 @@ const Cart = ({ onClose }: { onClose: () => void }): JSX.Element => {
   });
   const hasItems = items.length > 0;
 
-  const cartItemRemoveHandler = (id: string) => '';
-  const cartItemAddHandler = (item: IMeal) => '';
+  const cartItemRemoveHandler = (id: string) => removeItem(id);
+
+  const cartItemAddHandler = (item: IMeal) => addItem({ ...item, amount: 1 });
 
   const cartItems = (
     <ul className={classes['cart-items']}>
