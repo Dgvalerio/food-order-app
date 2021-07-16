@@ -1,9 +1,9 @@
-import React, { FC } from 'react';
+import React from 'react';
 
 import Modal from '../UI/Modal';
 import classes from './Cart.module.css';
 
-const Cart: FC = () => {
+const Cart = ({ onClose }: { onClose: () => void }): JSX.Element => {
   const cartItems = (
     <ul className={classes['cart-item']}>
       {[{ id: 'c1', name: 'Sushi', amount: 2, price: 12.99 }].map((item) => (
@@ -13,14 +13,18 @@ const Cart: FC = () => {
   );
 
   return (
-    <Modal>
+    <Modal onClose={onClose}>
       {cartItems}
       <div className={classes.total}>
         <span>Total Amount</span>
         <span>35.62</span>
       </div>
       <div className={classes.actions}>
-        <button type="button" className={classes['button-alt']}>
+        <button
+          type="button"
+          className={classes['button-alt']}
+          onClick={onClose}
+        >
           Close
         </button>
         <button type="button" className={classes.button}>
