@@ -1,38 +1,32 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
+import { IMeal } from '../../interfaces';
 import Card from '../UI/Card';
 import classes from './AvailableMeals.module.css';
 import MealItem from './MealsItem/MealItem';
 
-const DUMMY_MEALS = [
-  {
-    id: 'm1',
-    name: 'Sushi',
-    description: 'Finest fish and veggies',
-    price: 22.99,
-  },
-  {
-    id: 'm2',
-    name: 'Schnitzel',
-    description: 'A german specialty!',
-    price: 16.5,
-  },
-  {
-    id: 'm3',
-    name: 'Barbecue Burger',
-    description: 'American, raw, meaty',
-    price: 12.99,
-  },
-  {
-    id: 'm4',
-    name: 'Green Bowl',
-    description: 'Healthy...and green...',
-    price: 18.99,
-  },
-];
-
 const AvailableMeals: FC = () => {
-  const mealsList = DUMMY_MEALS.map(({ id, name, price, description }) => (
+  const [meals, setMeals] = useState<IMeal[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(
+        'https://react-tcg-14-default-rtdb.firebaseio.com/meals.json'
+      );
+
+      const data: { id: { description: string; name: string; price: number } } =
+        await response.json();
+
+      setMeals(
+        Object.entries(data).map((obj) => ({
+          id: obj[0],
+          ...obj[1],
+        }))
+      );
+    })();
+  }, []);
+
+  const mealsList = meals.map(({ id, name, price, description }) => (
     <MealItem
       key={id}
       id={id}
