@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 
 import classes from './Modal.module.css';
@@ -7,11 +7,7 @@ const Backdrop = ({ onClose }: { onClose: () => void }): JSX.Element => (
   <div className={classes.backdrop} onClick={onClose} />
 );
 
-const Overlay = ({
-  children,
-}: {
-  children: React.ReactElement | React.ReactElement[];
-}): JSX.Element => (
+const Overlay = ({ children }: { children: ReactNode }): JSX.Element => (
   <div className={classes.modal}>
     <div className={classes.content}>{children}</div>
   </div>
@@ -23,7 +19,7 @@ const Modal = ({
   children,
   onClose,
 }: {
-  children: React.ReactElement | React.ReactElement[];
+  children: ReactNode;
   onClose: () => void;
 }): JSX.Element => (
   <>

@@ -5,6 +5,7 @@
     "es6": true
   },
   "extends": [
+    "react-app",
     "airbnb",
     "prettier",
     "plugin:@typescript-eslint/recommended"
@@ -80,7 +81,8 @@
     ],
     "jsx-a11y/click-events-have-key-events":  "off",
     "jsx-a11y/no-static-element-interactions": "off",
-    "@typescript-eslint/ban-ts-comment": "off"
+    "@typescript-eslint/ban-ts-comment": "off",
+    "jsx-a11y/label-has-associated-control": "off"
   },
   "settings": {
     "import/resolver": {

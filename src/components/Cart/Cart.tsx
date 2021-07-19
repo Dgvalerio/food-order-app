@@ -1,13 +1,16 @@
 /* eslint-disable react/jsx-no-bind */
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { IMeal } from '../../interfaces';
 import CartContext from '../../store/cart-context';
 import Modal from '../UI/Modal';
 import classes from './Cart.module.css';
 import CartItem from './CartItem';
+import Checkout from './Checkout';
 
 const Cart = ({ onClose }: { onClose: () => void }): JSX.Element => {
+  const [isCheckout, setIsCheckout] = useState(false);
+
   const {
     totalAmount: cartAmount,
     items,
@@ -24,6 +27,8 @@ const Cart = ({ onClose }: { onClose: () => void }): JSX.Element => {
   const cartItemRemoveHandler = (id: string) => removeItem(id);
 
   const cartItemAddHandler = (item: IMeal) => addItem({ ...item, amount: 1 });
+
+  const orderHandler = () => setIsCheckout(true);
 
   const cartItems = (
     <ul className={classes['cart-items']}>
@@ -47,20 +52,27 @@ const Cart = ({ onClose }: { onClose: () => void }): JSX.Element => {
         <span>Total Amount</span>
         <span>{totalAmount}</span>
       </div>
-      <div className={classes.actions}>
-        <button
-          type="button"
-          className={classes['button-alt']}
-          onClick={onClose}
-        >
-          Close
-        </button>
-        {hasItems && (
-          <button type="button" className={classes.button}>
-            Order
+      {isCheckout && <Checkout onCancel={onClose} />}
+      {!isCheckout && (
+        <div className={classes.actions}>
+          <button
+            type="button"
+            className={classes['button-alt']}
+            onClick={onClose}
+          >
+            Close
           </button>
-        )}
-      </div>
+          {hasItems && (
+            <button
+              type="button"
+              className={classes.button}
+              onClick={orderHandler}
+            >
+              Order
+            </button>
+          )}
+        </div>
+      )}
     </Modal>
   );
 };
