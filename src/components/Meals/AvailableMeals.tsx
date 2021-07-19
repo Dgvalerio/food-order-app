@@ -7,6 +7,7 @@ import MealItem from './MealsItem/MealItem';
 
 const AvailableMeals: FC = () => {
   const [meals, setMeals] = useState<IMeal[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -23,8 +24,17 @@ const AvailableMeals: FC = () => {
           ...obj[1],
         }))
       );
+      setIsLoading(false);
     })();
   }, []);
+
+  if (isLoading) {
+    return (
+      <section className={classes.MealsLoading}>
+        <p>Loading...</p>
+      </section>
+    );
+  }
 
   const mealsList = meals.map(({ id, name, price, description }) => (
     <MealItem
