@@ -5,7 +5,23 @@ import classes from './Checkout.module.css';
 const isEmpty = (value: string) => value.trim() === '';
 const isFiveChars = (value: string) => value.trim().length === 5;
 
-const Checkout = ({ onCancel }: { onCancel: () => void }): JSX.Element => {
+const Checkout = ({
+  onCancel,
+  onConfirm,
+}: {
+  onCancel: () => void;
+  onConfirm: ({
+    name,
+    street,
+    city,
+    postalCode,
+  }: {
+    name: string;
+    street: string;
+    city: string;
+    postalCode: string;
+  }) => void;
+}): JSX.Element => {
   const [formInputsValidity, setFormInputsValidity] = useState({
     name: true,
     street: true,
@@ -49,7 +65,12 @@ const Checkout = ({ onCancel }: { onCancel: () => void }): JSX.Element => {
     }
 
     // Submit cart data
-    console.log({ enteredName, enteredStreet, enteredPostal, enteredCity });
+    onConfirm({
+      name: enteredName,
+      street: enteredStreet,
+      city: enteredCity,
+      postalCode: enteredPostal,
+    });
   };
 
   return (

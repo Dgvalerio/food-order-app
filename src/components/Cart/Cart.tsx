@@ -30,6 +30,34 @@ const Cart = ({ onClose }: { onClose: () => void }): JSX.Element => {
 
   const orderHandler = () => setIsCheckout(true);
 
+  const submitOrderHandler = async ({
+    name,
+    street,
+    city,
+    postalCode,
+  }: {
+    name: string;
+    street: string;
+    city: string;
+    postalCode: string;
+  }) => {
+    await fetch(
+      'https://react-tcg-14-default-rtdb.firebaseio.com/orders.json',
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          user: {
+            name,
+            street,
+            city,
+            postalCode,
+          },
+          orderedItems: [items],
+        }),
+      }
+    );
+  };
+
   const cartItems = (
     <ul className={classes['cart-items']}>
       {items.map((item) => (
@@ -52,7 +80,9 @@ const Cart = ({ onClose }: { onClose: () => void }): JSX.Element => {
         <span>Total Amount</span>
         <span>{totalAmount}</span>
       </div>
-      {isCheckout && <Checkout onCancel={onClose} />}
+      {isCheckout && (
+        <Checkout onCancel={onClose} onConfirm={submitOrderHandler} />
+      )}
       {!isCheckout && (
         <div className={classes.actions}>
           <button
