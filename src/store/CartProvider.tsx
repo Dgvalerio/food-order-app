@@ -13,7 +13,10 @@ interface IState {
   totalAmount: number;
 }
 
-type Action = { type: 'ADD'; item: ICartItem } | { type: 'REMOVE'; id: string };
+type Action =
+  | { type: 'ADD'; item: ICartItem }
+  | { type: 'REMOVE'; id: string }
+  | { type: 'CLEAR' };
 
 const cartReducer = ({ items, totalAmount }: IState, action: Action) => {
   if (action.type === 'ADD') {
@@ -64,6 +67,9 @@ const cartReducer = ({ items, totalAmount }: IState, action: Action) => {
       totalAmount: updatedTotalAmount,
     };
   }
+  if (action.type === 'CLEAR') {
+    return defaultCartState;
+  }
   return defaultCartState;
 };
 
@@ -79,11 +85,14 @@ const CartProvider = ({ children }: { children: ReactNode }): JSX.Element => {
   const removeItemFromCartHandler = (id: string) =>
     dispatchCartAction({ type: 'REMOVE', id });
 
+  const clearCartHandler = () => dispatchCartAction({ type: 'CLEAR' });
+
   const cartContext: ICartContext = {
     items: cartState.items,
     totalAmount: cartState.totalAmount,
     addItem: addItemToCartHandler,
     removeItem: removeItemFromCartHandler,
+    clearCart: clearCartHandler,
   };
 
   return (

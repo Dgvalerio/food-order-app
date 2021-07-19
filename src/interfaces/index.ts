@@ -27,4 +27,5 @@ export interface ICartContext {
   totalAmount: number;
   addItem: (item: ICartItem) => void;
   removeItem: (id: string) => void;
+  clearCart: () => void;
 }

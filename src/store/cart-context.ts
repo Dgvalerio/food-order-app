@@ -8,6 +8,7 @@ const defaultValue: ICartContext = {
   totalAmount: 0,
   addItem: (item: IMeal) => {},
   removeItem: (id: string) => {},
+  clearCart: () => {},
 };
 
 const CartContext = React.createContext(defaultValue);

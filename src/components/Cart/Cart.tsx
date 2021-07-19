@@ -10,12 +10,15 @@ import Checkout from './Checkout';
 
 const Cart = ({ onClose }: { onClose: () => void }): JSX.Element => {
   const [isCheckout, setIsCheckout] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [didSubmit, setDidSubmit] = useState(false);
 
   const {
     totalAmount: cartAmount,
     items,
     addItem,
     removeItem,
+    clearCart,
   } = useContext(CartContext);
 
   const totalAmount = cartAmount.toLocaleString('pt-BR', {
@@ -41,7 +44,9 @@ const Cart = ({ onClose }: { onClose: () => void }): JSX.Element => {
     city: string;
     postalCode: string;
   }) => {
-    await fetch(
+    setIsSubmitting(true);
+
+    const response = await fetch(
       'https://react-tcg-14-default-rtdb.firebaseio.com/orders.json',
       {
         method: 'POST',
@@ -56,6 +61,10 @@ const Cart = ({ onClose }: { onClose: () => void }): JSX.Element => {
         }),
       }
     );
+
+    setIsSubmitting(false);
+    setDidSubmit(true);
+    clearCart();
   };
 
   const cartItems = (
@@ -73,8 +82,8 @@ const Cart = ({ onClose }: { onClose: () => void }): JSX.Element => {
     </ul>
   );
 
-  return (
-    <Modal onClose={onClose}>
+  const cartModalContent = (
+    <>
       {cartItems}
       <div className={classes.total}>
         <span>Total Amount</span>
@@ -103,6 +112,27 @@ const Cart = ({ onClose }: { onClose: () => void }): JSX.Element => {
           )}
         </div>
       )}
+    </>
+  );
+
+  const isSubmittingModalContent = <p>Sending order data...</p>;
+
+  const didSubmitModalContent = (
+    <>
+      <p>Successfully sent the order!</p>
+      <div className={classes.actions}>
+        <button type="button" onClick={onClose}>
+          Close
+        </button>
+      </div>
+    </>
+  );
+
+  return (
+    <Modal onClose={onClose}>
+      {!isSubmitting && !didSubmit && cartModalContent}
+      {isSubmitting && isSubmittingModalContent}
+      {!isSubmitting && didSubmit && didSubmitModalContent}
     </Modal>
   );
 };
